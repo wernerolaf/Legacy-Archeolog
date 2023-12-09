@@ -2,11 +2,10 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 
-load_dotenv()
+args = load_args()
 
 client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY"),
-    repo_path=os.environ.get("REPO_PATH"),
+    api_key=args['api_key'], 
 )
 
 chat_completion = client.chat.completions.create(
