@@ -1,6 +1,9 @@
 
+
+
 def load_args():
     from dotenv import load_dotenv
+    import os
     load_dotenv()
     return {
         'api_key': os.environ.get("OPENAI_API_KEY"),
