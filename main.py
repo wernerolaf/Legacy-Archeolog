@@ -12,11 +12,27 @@ client = OpenAI(
 chat_completion = client.chat.completions.create(
     messages=[
         {
+            "role": "system",
+            "content": "You give short answers and you ask, if you should explain specific things in more detail."
+        },
+        {
             'role': 'user',
-            'content': 'Say this is a test',
+            'content': 'based on this git difference file, tell me what have chagned: ' + diff,
         }
     ],
     model='gpt-4',
 )
 
+def get_embedding(text, model="text-embedding-ada-002"):
+   text = text.replace("\n", " ")
+   return client.embeddings.create(input = [text], model=model).data[0].embedding
+
+text = diff.replace('\n', ' ')
+model = 'text-embedding-ada-002'
+emb = client.embeddings.create(input=[text], model=model)
+
+emb.data[0].embedding
+
 print(chat_completion)
+
+

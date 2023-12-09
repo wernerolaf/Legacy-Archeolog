@@ -1,8 +1,8 @@
 import json
 from git import Repo
 
-
 def get_commit_info(repo_path, file_path=None):
+
     repo = Repo(repo_path)
 
     commits_info = []
