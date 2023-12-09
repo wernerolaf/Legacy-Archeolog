@@ -7,6 +7,7 @@ load_dotenv()
 client = OpenAI(
     # This is the default and can be omitted
     api_key=os.environ.get("OPENAI_API_KEY"),
+    repo_path=os.environ.get("REPO_PATH"),
 )
 
 chat_completion = client.chat.completions.create(
