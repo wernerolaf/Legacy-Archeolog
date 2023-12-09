@@ -25,7 +25,10 @@ def get_commit_info(repo_path, file_path=None):
             commit_info["changes"].append({
                 "filename": diff.a_path,
                 "additions": diff.diff.decode('utf-8', 'ignore').count('+'),
-                "deletions": diff.diff.decode('utf-8', 'ignore').count('-')
+                "deletions": diff.diff.decode('utf-8', 'ignore').count('-'),
+                "diff": diff.diff.decode('utf-8', 'ignore'),
+                "new_file": diff.a_blob.data_stream.read().decode('utf-8', 'ignore') if diff.a_blob else '',
+                "old_file": diff.b_blob.data_stream.read().decode('utf-8', 'ignore') if diff.b_blob else '',
             })
 
         commits_info.append(commit_info)
