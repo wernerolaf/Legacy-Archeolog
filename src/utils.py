@@ -1,6 +1,4 @@
 
-
-
 def load_args():
     from dotenv import load_dotenv
     import os
@@ -10,6 +8,7 @@ def load_args():
         'repo_path': os.environ.get("REPO_PATH"),
     }
 
+
 def parse_args():
     import argparse
     parser = argparse.ArgumentParser()
@@ -18,4 +17,3 @@ def parse_args():
          ('repo_path', str, 'path to the repository')):
         parser.add_argument(n, type=t, help=h, required=True)
     return parser.parse_args()
-

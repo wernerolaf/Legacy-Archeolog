@@ -1,9 +1,10 @@
 import json
-from git import Repo
+import git
+
 
 def get_commit_info(repo_path, file_path=None):
 
-    repo = Repo(repo_path)
+    repo = git.Repo(repo_path)
 
     commits_info = []
 
@@ -39,3 +40,17 @@ def get_commit_info(repo_path, file_path=None):
 def save_to_json(data, output_file):
     with open(output_file, 'w') as json_file:
         json.dump(data, json_file, indent=2)
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    for (n, t, h) in \
+        (('repo_path', str, 'path to the repository'),
+         ('output_path', str, 'output file path')):
+        parser.add_argument(n, type=t, help=h, required=True)
+    args = parser.parse_args()
+    save_to_json(
+        get_commit_info(args.repo_path),
+        args.output_path
+    )

@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-from utils import load_args
+from src.utils import load_args
 
 args = load_args()
 
@@ -17,7 +17,7 @@ chat_completion = client.chat.completions.create(
         },
         {
             'role': 'user',
-            'content': 'based on this git difference file, tell me what have chagned: ' + diff,
+            'content': 'based on this git difference file, tell me what have chagned: ',
         }
     ],
     model='gpt-4',
