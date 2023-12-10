@@ -85,10 +85,11 @@ if __name__ == "__main__":
         parser.add_argument(n, type=t, help=h)
     args = parser.parse_args()
 
-    client = openai.OpenAI(
-        api_key=src.utils.load_args()['api_key'],
-    )
-
+    # client = openai.OpenAI(
+    #     api_key=src.utils.load_args()['api_key'],
+    #)
+    client = src.utils.make_client()
+    
     system_role = read_file(args.system_role)
     print("System role: ")
     print(system_role)

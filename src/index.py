@@ -7,10 +7,10 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     for (n, t, h) in \
-        (('input_path', str, 'data path'),
+        (('input_path', str, 'embeddings path'),
          ('output_path', str, 'index output path'),
          ('num_elements', int, 'maximmum number of elements')):
-        parser.add_argument(n, type=t, help=h, required=True)
+        parser.add_argument(n, type=t, help=h)
     args = parser.parse_args()
 
 
@@ -25,7 +25,8 @@ if __name__ == '__main__':
         ef_construction=200,
         M=16,
     )
-
+    
+    ids = np.arange(data.shape[0])
     index.add_items(data, ids)
     index.set_ef(50)
 
