@@ -1,38 +1,22 @@
-import os
-from openai import OpenAI
-from dotenv import load_dotenv
-from src.utils import load_args
-
-args = load_args()
-
-client = OpenAI(
-    api_key=args['api_key'], 
-)
-
-chat_completion = client.chat.completions.create(
-    messages=[
-        {
-            "role": "system",
-            "content": "You give short answers and you ask, if you should explain specific things in more detail."
-        },
-        {
-            'role': 'user',
-            'content': 'based on this git difference file, tell me what have chagned: ',
-        }
-    ],
-    model='gpt-4',
-)
-
-def get_embedding(text, model="text-embedding-ada-002"):
-   text = text.replace("\n", " ")
-   return client.embeddings.create(input = [text], model=model).data[0].embedding
-
-text = diff.replace('\n', ' ')
-model = 'text-embedding-ada-002'
-emb = client.embeddings.create(input=[text], model=model)
-
-emb.data[0].embedding
-
-print(chat_completion)
+import hnswlib
+import numpy as np
+import pickle
 
 
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    for (n, t, h) in \
+        (('commit_path', str, 'commits'),
+         ('descr_path', str, 'descriptions'),
+         ('index_path', str, 'embeddings')):
+        parser.add_argument(n, type=t, help=h, required=True)
+    args = parser.parse_args()
+
+    commits = np.load(args.commit_path)
+    with open(args.index_path, 'rb') as file:
+        index = pickle.load(file)
+    with open(args.descr_path, 'r') as file:
+        descriptions = json.load(file)
+
+    labels, distances = index.knn_query(data, k=1)

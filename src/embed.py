@@ -22,18 +22,25 @@ def load_from_json(input_file):
 
 
 def get_embedding(client, text, model='text-embedding-ada-002'):
-   text = text.replace('\n', ' ')
-   text = text if len(text) > 0 else ' '
-   return np.array(
-        client.embeddings.create(
-            input=[text],
-            model=model
-        ).data[0].embedding
-   )
+    try:
+        text = text.replace('\n', ' ')
+        text = text if len(text) > 0 else ' '
+        embedding = np.array(
+            client.embeddings.create(
+                input=[text],
+                model=model
+            ).data[0].embedding
+        )
+    except Exception as e:
+        print(e)
+        embedding = np.array([])
+    return embedding
+
 
 
 def describe_commit(client, commit, system_role, model='gpt-4'):
-    return client.chat.completions.create(
+    try:
+        description = client.chat.completions.create(
             messages=[
                 {
                     "role": "system",
@@ -45,7 +52,12 @@ def describe_commit(client, commit, system_role, model='gpt-4'):
                 }
             ],
             model='gpt-4',
-    ).choices[0].message.content
+        ).choices[0].message.content
+    except Exception as e:
+        print(e)
+        description = commit['message']
+
+    return description
 
 
 def embed_files(client, path, env):
@@ -93,9 +105,14 @@ if __name__ == "__main__":
         for commit in tqdm(commit_data)
     ]
 
-    embeddings = np.stack([
+    embeddings = [
         get_embedding(client, description)
         for description in tqdm(descriptions)
+    ]
+    zero = np.zeros((max([emb.shape[0] for emb in embeddings]),))
+    embeddings = np.stack([
+        zero if emb is emb.shape[0] == 0 else emb
+        for emb in embeddings
     ])
     
     # SAVING

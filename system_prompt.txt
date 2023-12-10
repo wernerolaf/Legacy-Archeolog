@@ -7,10 +7,11 @@ You will be provided with:
 The changes will be in a json format.
 --- Task
 Your task is to write a description for the commit, explaining:
-1. include the original commit message;
-2. describe what was the purpose of the commit;
-3. what has changed (briefly)
-4. bullet list of changed files in a form:
+1. include the commit id;
+2. include the original commit message;
+3. describe what was the purpose of the commit;
+4. what has changed (briefly)
+5. bullet list of changed files in a form:
     * name_of_file -- change description;
 --- Requirements
 The description should be:

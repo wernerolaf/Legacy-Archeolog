@@ -54,3 +54,9 @@ if __name__ == "__main__":
         get_commit_info(args.repo_path),
         args.output_path
     )
+
+    
+
+
+
+
